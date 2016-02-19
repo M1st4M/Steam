@@ -5,7 +5,13 @@ use Syntax\SteamApi\Collection;
 class App extends BaseContainer {
 	public $id;
 
-	public $name;
+	public $type;
+
+	public $name;	
+
+	public $age;
+
+	public $dlc;
 
 	public $controllerSupport;
 
@@ -33,6 +39,8 @@ class App extends BaseContainer {
 
 	public $categories;
 
+	public $images;
+
 	public $genres;
 
 	public $release;
@@ -40,7 +48,11 @@ class App extends BaseContainer {
 	public function __construct($app)
 	{
 		$this->id                 = $app->steam_appid;
+		$this->type               = $app->type;
 		$this->name               = $app->name;
+		$this->age                = $app->required_age;
+		$this->fullgame           = $this->checkIssetField($app, 'fullgame', 'None');
+		$this->dlc                = $this->checkIssetField($app, 'dlc', 'None');
 		$this->controllerSupport  = $this->checkIssetField($app, 'controller_support', 'None');
 		$this->description        = $app->detailed_description;
 		$this->about              = $app->about_the_game;
@@ -54,6 +66,7 @@ class App extends BaseContainer {
 		$this->platforms          = $app->platforms;
 		$this->metacritic         = $this->checkIssetField($app, 'metacritic', $this->getFakeMetacriticObject());
 		$this->categories         = $this->checkIssetCollection($app, 'categories');
+		$this->images         	  = $this->checkIssetCollection($app, 'screenshots');
 		$this->genres             = $this->checkIssetCollection($app, 'genres');
 		$this->release            = $app->release_date;
 	}
@@ -62,15 +75,16 @@ class App extends BaseContainer {
 	{
 		$object        = new \stdClass();
 		$object->url   = null;
-		$object->score = 'No Score';
+		$object->score = '0';
 
 		return $object;
 	}
 
 	protected function getFakePriceObject()
 	{
-		$object        = new \stdClass();
-		$object->final = 'No price found';
+		$object        		= new \stdClass();
+		$object->initial 	= '0';
+		$object->final 		= '0';
 
 		return $object;
 	}
