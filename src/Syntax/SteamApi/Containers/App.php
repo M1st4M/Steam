@@ -24,6 +24,12 @@ class App extends BaseContainer {
 	public $website;
 
 	public $pcRequirements;
+	
+	public $linuxRequirements;
+
+	public $macRequirements;
+
+	public $languages;	
 
 	public $legal;
 
@@ -59,6 +65,9 @@ class App extends BaseContainer {
 		$this->header             = $app->header_image;
 		$this->website            = $this->checkIsNullField($app, 'website', 'None');
 		$this->pcRequirements     = $app->pc_requirements;
+		$this->linuxRequirements  = $this->checkIssetField($app, 'linux_requirements', '');
+		$this->macRequirements    = $this->checkIssetField($app, 'mac_requirements', '');
+		$this->languages	  = $this->checkIssetField($app, 'supported_languages', 'Unknown');			
 		$this->legal              = $this->checkIssetField($app, 'legal_notice', 'None');
 		$this->developers         = $this->checkIssetCollection($app, 'developers');
 		$this->publishers         = new Collection($app->publishers);
