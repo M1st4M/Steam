@@ -26,7 +26,15 @@
   "extra": {
     "branch-alias": {
       "dev-master": "1.0-dev"
-    }
+    },
+    "laravel": {
+        "providers": [
+            "Syntax\\SteamApi\\SteamApiServiceProvider"
+        ],
+        "aliases": {
+            "Steam": "Syntax\\SteamApi\\Facades\\SteamApi"
+        }
+    }    
   },
   "minimum-stability": "stable"
 }
