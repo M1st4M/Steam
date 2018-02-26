@@ -45,10 +45,10 @@ class Client {
     public function __construct()
     {
         $apiKey = $this->getApiKey();
-
-        $this->client = new GuzzleClient($this->url);
+        
+        $this->client = new GuzzleClient();
         $this->apiKey = $apiKey;
-
+        
         // Set up the Ids
         $this->setUpFormatted();
     }
@@ -90,7 +90,7 @@ class Client {
         $parameters = http_build_query($parameters);
 
         // Send the request and get the results
-        $request  = $this->client->get($steamUrl . '?' . $parameters);
+        $request  = new Request('GET', $steamUrl . '?' . $parameters);
         $response = $this->sendRequest($request);
 
         // Pass the results back
@@ -115,7 +115,7 @@ class Client {
         $parameters = http_build_query($parameters);
 
         // Send the request and get the results
-        $request  = $this->client->get($steamUrl . '?' . $parameters);
+        $request  = new Request('GET', $steamUrl . '?' . $parameters);
         $response = $this->sendRequest($request);
 
         // Pass the results back
@@ -125,19 +125,36 @@ class Client {
     protected function setUpXml(array $arguments = [])
     {
         $steamUrl = $this->buildUrl();
-
         // Build the query string
         $parameters = http_build_query($arguments);
-
         // Pass the results back
         return simplexml_load_file($steamUrl . '?' . $parameters);
+        libxml_use_internal_errors(true);
+        $result = simplexml_load_file($steamUrl . '?' . $parameters);
+        if (! $result) {
+            return null;
+        }
+        return $result;
     }
 
+    
+    public function getRedirectUrl()
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $this->url);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_exec($ch);
+        $this->url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
+        curl_close($ch);
+    }    
+    
     /**
-     * @param \Guzzle\Http\Message\RequestInterface $request
+     * @param \GuzzleHttp\Psr7\Request $request
      *
-     * @throws ApiCallFailedException
-     * @return stdClass
+     * @return \stdClass
+     * @throws \Syntax\SteamApi\Exceptions\ApiCallFailedException
      */
     protected function sendRequest($request)
     {
