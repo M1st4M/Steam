@@ -9,6 +9,8 @@ class Package extends BaseContainer {
 	public $name;
 
 	public $apps;
+	
+	public $page_content;	
 
 	public $header;
 
@@ -24,6 +26,7 @@ class Package extends BaseContainer {
 	{
 		$this->name               = $package->name;
 		$this->apps               = $package->apps;
+		$this->page_content 	  = $this->checkIssetField($package, 'page_content', 'none');		
 		$this->small_logo         = $this->checkIssetField($package, 'small_logo', 'none');
 		$this->header             = $this->checkIssetField($package, 'header_image', 'none');
 		$this->page_image         = $this->checkIssetField($package, 'page_image', 'none');
