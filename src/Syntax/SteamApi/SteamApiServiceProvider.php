@@ -1,4 +1,6 @@
-<?php namespace Syntax\SteamApi;
+<?php 
+
+namespace Syntax\SteamApi;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
@@ -31,9 +33,9 @@ class SteamApiServiceProvider extends ServiceProvider {
 	{
 		$this->registerAlias();
 
-		$this->app['steam-api'] = $this->app->share(function () {
-			return new Client;
-		});
+		$this->app->singleton('steam-api', function () {
+            return new Client;
+        });
 	}
 
 	/**
