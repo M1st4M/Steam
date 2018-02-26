@@ -1,22 +1,24 @@
-<?php namespace Syntax\SteamApi;
+<?php 
+
+namespace Syntax\SteamApi;
 
 use stdClass;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Psr7\Request;
 use Exception;
-use Illuminate\Support\Facades\Config;
 use GuzzleHttp\Exception\ClientErrorResponseException;
 use GuzzleHttp\Exception\ServerErrorResponseException;
 use Syntax\SteamApi\Exceptions\ApiCallFailedException;
 use Syntax\SteamApi\Exceptions\ClassNotFoundException;
 
 /**
- * @method news()
- * @method player($steamId)
- * @method user($steamId)
- * @method userStats($steamId)
- * @method app()
- * @method group()
+ * @method \Syntax\SteamApi\Steam\News       news()
+ * @method \Syntax\SteamApi\Steam\Player     player($steamId)
+ * @method \Syntax\SteamApi\Steam\User       user($steamId)
+ * @method \Syntax\SteamApi\Steam\User\Stats userStats($steamId)
+ * @method \Syntax\SteamApi\Steam\App        app()
+ * @method \Syntax\SteamApi\Steam\Group      group()
+ * @method \Syntax\SteamApi\Steam\Item       item($appId)
  */
 class Client {
 
