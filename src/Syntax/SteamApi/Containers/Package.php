@@ -1,25 +1,18 @@
-<?php namespace Syntax\SteamApi\Containers;
+<?php 
+namespace Syntax\SteamApi\Containers;
 
 use Syntax\SteamApi\Collection;
 
 class Package extends BaseContainer {
 	
 	public $id;
-
 	public $name;
-
 	public $apps;
-	
 	public $page_content;	
-
 	public $header;
-
 	public $page_image;
-
 	public $price;
-
 	public $platforms;
-
 	public $release;
 
 	public function __construct($package)
@@ -44,3 +37,5 @@ class Package extends BaseContainer {
 
 		return $object;
 	}
+
+}
